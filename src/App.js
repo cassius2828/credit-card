@@ -33,7 +33,8 @@ function App() {
       monthID > 0 &&
       monthID < 13 &&
       ((yearID > 22 && monthID > todaysMonth) || yearID > 23) &&
-      numberID === numberID.match(numRegex).join("")
+      numberID === numberID.match(numRegex).join("") &&
+      numberID.length === 16
     ) {
       setCvc(cvcCode);
       setName(nameID);
