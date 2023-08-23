@@ -1,28 +1,40 @@
 import cardDesign from "./images/Screenshot 2023-08-22 at 5.43.28 PM.png";
-import cardFront from "./images/bg-card-front.png";
 import "./App.css";
 import tachyons from "tachyons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faCheckCircle, faX } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faX } from "@fortawesome/free-solid-svg-icons";
 
 function App() {
+  ////////////////////////////////////////////////
+  // state
+  ////////////////////////////////////////////////
   const [confirm, setConfirm] = useState(false);
   const [cvc, setCvc] = useState("000");
   const [cardDigits, setCardDigits] = useState("0000 0000 0000 0000");
   const [name, setName] = useState("Justin Jefferson");
   const [month, setMonth] = useState("00");
   const [year, setYear] = useState("00");
+
+  ////////////////////////////////////////////////
+  // error state
+  ////////////////////////////////////////////////
   const [nameError, setNameError] = useState(false);
   const [digitError, setDigitError] = useState(false);
   const [monthError, setMonthError] = useState(false);
   const [yearError, setYearError] = useState(false);
   const [cvcError, setCvcError] = useState(false);
 
+  ////////////////////////////////////////////////
+  //* date and regex for checking for legitimate card entries
+  ////////////////////////////////////////////////
   const date = new Date();
   const todaysMonth = date.getMonth() + 1;
   const numRegex = /\d/g;
 
+  ////////////////////////////////////////////////
+  // * initial actions once we press confirm
+  ////////////////////////////////////////////////
   const confirmDetails = () => {
     const cvcCode = document.getElementById("code").value;
     const nameID = document.getElementById("name").value;
@@ -30,8 +42,10 @@ function App() {
     const yearID = document.getElementById("year").value;
     const numberID = document.getElementById("card-number").value;
     const modal = document.getElementById("modal");
-    //* logic to ensure accurate submissions
 
+    ////////////////////////////////////////////////
+    //* logic to ensure accurate submissions
+    ////////////////////////////////////////////////
     if (nameID.split(" ").length !== 2) {
       modal.classList.remove("hidden");
     }
@@ -47,17 +61,22 @@ function App() {
       setName(nameID);
       setMonth(monthID);
       setYear(yearID);
+
+      ////////////////////////////////////////////////
+      // * ensures no non-digits have been entered in input
+      ////////////////////////////////////////////////
       let result = numberID.match(/.{1,4}/g ?? []).join(" ");
       setCardDigits(result);
       setConfirm(true);
     } else {
       modal.classList.remove("hidden");
     }
-
-    ////////////////////////////////////////////////
-    // * setting invalid borders for specific fields
-    ////////////////////////////////////////////////
   };
+
+  ////////////////////////////////////////////////
+  // * setting invalid borders for specific fields
+  // * contains individual onChange evenet listenrs
+  ////////////////////////////////////////////////
   const onNameChange = (e) => {
     if (e.target.value.split(" ").length !== 2) {
       setNameError(true);
@@ -75,10 +94,10 @@ function App() {
         ((yearID > 22 && e.target.value > todaysMonth) || yearID > 23)
       ) {
         setMonthError(false);
-        console.log("hiya");
+        setYearError(false);
       } else {
-        console.log(todaysMonth);
         setMonthError(true);
+        setYearError(true);
       }
     } else {
       setMonthError(true);
@@ -93,6 +112,7 @@ function App() {
       setMonthError(false);
     } else {
       setYearError(true);
+      setMonthError(true);
     }
   };
 
@@ -115,6 +135,9 @@ function App() {
     }
   };
 
+  ////////////////////////////////////////////////
+  // * continue / reset button
+  ////////////////////////////////////////////////
   const continueBtn = () => {
     setCvc("000");
     setCardDigits("0000 0000 0000 0000");
@@ -129,9 +152,11 @@ function App() {
     setCvcError(false);
   };
 
+  ////////////////////////////////////////////////
+  // * error modal
+  ////////////////////////////////////////////////
   const closeModal = () => {
     const modal = document.getElementById("modal");
-
     modal.classList.add("hidden");
   };
 
@@ -139,7 +164,7 @@ function App() {
     <div className="main-container">
       <Modal handleModal={closeModal} />
       <div className="initial-bg">
-        {/* back card */}
+        {/* //* back card */}
         <div className="end">
           <div id="back-card">
             <div className="bar"></div>{" "}
@@ -149,7 +174,7 @@ function App() {
             <img id="card-design" src={cardDesign} alt="" />
           </div>
         </div>
-        {/* front card */}
+        {/* //* front card */}
         <div className="start">
           <div className="front">
             <div id="front-card">
@@ -168,7 +193,7 @@ function App() {
           </div>
         </div>
       </div>
-      {/* success / form section */}
+      {/* //* success / form section */}
       {confirm ? (
         <div className="success-container">
           <FontAwesomeIcon id="check-icon" size="3x" icon={faCheck} />
@@ -272,16 +297,3 @@ export const Modal = ({ handleModal }) => {
     </div>
   );
 };
-
-/*
-- keep it as a string? or make it numbers and then separate every 4 digits 
--A: make input required numbers only, then stringify numbers, separate by 4 digits with space
-
-
-things to add 
-1. require first and last name
-2. highlight red border around failing areas
-3. style for desktop and tablet
-4. tweak styles for xs devices
-
-*/

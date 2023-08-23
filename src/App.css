@@ -36,12 +36,11 @@
   position: relative;
 }
 
-/* card section */
+/* *card section */
 .end,
 .front {
   display: flex;
   width: 100%;
-  /* border: solid 2px red; */
 }
 
 .front {
@@ -57,7 +56,7 @@
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  width: 50%;
+  width: 60%;
   height: 8rem;
   margin: 1rem;
   border-radius: var(--custom-border);
@@ -93,7 +92,7 @@
   margin-top: 0.5rem;
 }
 
-/* front card */
+/* *front card */
 
 #front-card {
   display: flex;
@@ -136,7 +135,7 @@
   display: flex;
   justify-content: center;
   margin: auto 1rem;
-  font-size: 0.8rem;
+  font-size: 1rem;
 }
 
 .bottom-details {
@@ -146,7 +145,7 @@
   margin-bottom: 0.5rem;
 }
 
-/* form section */
+/** form section */
 
 label {
   font-size: 1rem;
@@ -178,6 +177,7 @@ label {
   font-size: 1.5rem;
   display: flex;
   justify-content: center;
+  padding-left: 0.5rem;
 }
 
 .card-date-container input,
@@ -272,7 +272,6 @@ button span {
 .hero-modal-container {
   display: flex;
   justify-content: center;
- 
 }
 
 .modal-container {
@@ -293,10 +292,9 @@ button span {
   background-color: whitesmoke;
   padding: 1rem;
   border-radius: var(--custom-border);
--webkit-box-shadow: 0px 0px 0 500px rgba(0,0,0,0.49);
--moz-box-shadow: 0px 0px 0 500px rgba(0,0,0,0.49);
-box-shadow: 0px 0px 0 500px rgba(0,0,0,0.49);
-  
+  -webkit-box-shadow: 0px 0px 0 500px rgba(0, 0, 0, 0.49);
+  -moz-box-shadow: 0px 0px 0 500px rgba(0, 0, 0, 0.49);
+  box-shadow: 0px 0px 0 500px rgba(0, 0, 0, 0.49);
 }
 
 .modal-container > div {
@@ -316,6 +314,7 @@ box-shadow: 0px 0px 0 500px rgba(0,0,0,0.49);
   color: red;
   font-weight: 600;
   padding: 1rem;
+  text-align: center;
 }
 
 .hidden {
@@ -325,4 +324,171 @@ box-shadow: 0px 0px 0 500px rgba(0,0,0,0.49);
 
 .invalid {
   border: solid 2px red;
+}
+
+/* ///////////////////////// */
+/* ! MEDIA QUERY XS DEVICE */
+/* ///////////////////////// */
+
+@media (max-width: 375px) {
+  #front-card,
+  #back-card {
+    width: 65%;
+  }
+
+  .form-container input,
+  .form-container input::placeholder {
+    font-size: 1rem;
+  }
+  .card-date-container input,
+  .card-date-container input::placeholder {
+    padding-left: 0.35rem;
+  }
+}
+
+/* ///////////////////////// */
+/* ! MEDIA QUERY TABLET DEVICE */
+/* ///////////////////////// */
+
+@media (min-width: 426px) {
+  #front-card,
+  #back-card {
+    position: relative;
+    height: 11rem;
+    width: 20rem;
+  }
+
+  #front-card {
+    top: -4.5rem;
+  }
+}
+
+/* ///////////////////////// */
+/* ! MEDIA QUERY DESKTOP DEVICE */
+/* ///////////////////////// */
+
+@media (min-width: 850px) {
+  .main-container {
+    flex-direction: row;
+  }
+  /* * LEFT SIDE */
+  .initial-bg {
+    height: 100vh;
+    width: 30%;
+    flex-direction: column-reverse;
+    justify-content: center;
+    position: relative;
+  }
+
+  .front {
+    justify-content: end;
+  }
+
+  #front-card,
+  #back-card {
+    position: absolute;
+  }
+
+  #front-card {
+    left: 2rem;
+    top: 10rem;
+  }
+
+  #back-card {
+    left: 6rem;
+    top: 23rem;
+  }
+
+  /* * FORM SECTION */
+  .form-container {
+    width: 70%;
+    margin: auto;
+  }
+
+  .label-container {
+    width: 50%;
+    height: 4rem;
+    margin: 2rem auto;
+  }
+
+  .form-container input,
+  .label-container input {
+    width: 100%;
+  }
+
+  .card-date-container {
+    width: 100%;
+  }
+
+  .card-date-container input:first-child {
+    width: 50%;
+    margin: auto 0.5rem 0 0;
+  }
+  .card-date-container input:nth-child(2) {
+    width: 50%;
+    margin: auto 0.5rem 0 0;
+  }
+
+  #code {
+    width: 100%;
+  }
+  /* * button */
+  button {
+    width: 50%;
+  }
+
+  /* * SUCCESS SCREEN */
+  .success-container {
+    margin: auto;
+  }
+
+  #check-icon {
+    width: 6rem;
+    height: 6rem;
+  }
+
+  .success-container h1 {
+    margin: 3rem;
+    font-size: 3rem;
+  }
+
+  .success-container p {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* * ERROR MODAL  */
+
+  .modal-container {
+    width: 60%;
+    height: 50vh;
+    margin-top: 12rem;
+  }
+
+  .modal-container h2 {
+    padding: 0;
+    margin: auto;
+    font-size: 4rem;
+  }
+
+  #x-button {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+/* ///////////////////////// */
+/* ! MEDIA QUERY XL DESKTOP DEVICE */
+/* ///////////////////////// */
+
+@media (min-width: 1400px) {
+  #front-card {
+    left: 10rem;
+    top: 10rem;
+  }
+
+  #back-card {
+    left: 14rem;
+    top: 23rem;
+  }
 }
