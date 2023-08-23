@@ -13,14 +13,14 @@ function App() {
   const [name, setName] = useState("Justin Jefferson");
   const [month, setMonth] = useState("00");
   const [year, setYear] = useState("00");
-const [nameError, setNameError] = useState(false);
-const [digitError, setDigitError] = useState(false);
-const [monthError, setMonthError] = useState(false);
-const [yearError, setYearError] = useState(false);
-const [cvcError, setCvcError] = useState(false);
+  const [nameError, setNameError] = useState(false);
+  const [digitError, setDigitError] = useState(false);
+  const [monthError, setMonthError] = useState(false);
+  const [yearError, setYearError] = useState(false);
+  const [cvcError, setCvcError] = useState(false);
 
   const date = new Date();
-  const todaysMonth = date.getMonth + 1;
+  const todaysMonth = date.getMonth() + 1;
   const numRegex = /\d/g;
 
   const confirmDetails = () => {
@@ -31,12 +31,17 @@ const [cvcError, setCvcError] = useState(false);
     const numberID = document.getElementById("card-number").value;
     const modal = document.getElementById("modal");
     //* logic to ensure accurate submissions
+
+    if (nameID.split(" ").length !== 2) {
+      modal.classList.remove("hidden");
+    }
     if (
       monthID > 0 &&
       monthID < 13 &&
       ((yearID > 22 && monthID > todaysMonth) || yearID > 23) &&
       numberID === numberID.match(numRegex).join("") &&
-      numberID.length === 16
+      numberID.length === 16 &&
+      nameID.split(" ").length >= 2
     ) {
       setCvc(cvcCode);
       setName(nameID);
@@ -49,61 +54,66 @@ const [cvcError, setCvcError] = useState(false);
       modal.classList.remove("hidden");
     }
 
-
     ////////////////////////////////////////////////
     // * setting invalid borders for specific fields
     ////////////////////////////////////////////////
-
   };
-  const onInputChange = (e) => {
-        const cvcCode = document.getElementById("code").value;
-        const nameID = document.getElementById("name").value;
-        const monthID = document.getElementById("month").value;
-        const yearID = document.getElementById("year").value;
-        const numberID = document.getElementById("card-number").value;
-        // ?  month
-        if (
-          monthID > 0 &&
-          monthID < 13 &&
-          ((yearID > 22 && monthID > todaysMonth) || yearID > 23)
-        ) {
-          setMonthError(false);
-        } else {
-          setMonthError(true);
-        }
-        // ? year
-        if ((yearID > 22 && monthID > todaysMonth) || yearID > 23) {
-          setYearError(false);
-        } else {
-          setYearError(true);
-        }
+  const onNameChange = (e) => {
+    if (e.target.value.split(" ").length !== 2) {
+      setNameError(true);
+    } else {
+      setNameError(false);
+    }
+  };
 
-        // ?  cvc
-        if (cvcCode === 3) {
-          setCvcError(false);
-        } else {
-          setCvcError(true);
-        }
+  const onMonthChange = (e) => {
+    const yearID = document.getElementById("year").value;
+    if (yearID.length > 1) {
+      if (
+        e.target.value > 0 &&
+        e.target.value < 13 &&
+        ((yearID > 22 && e.target.value > todaysMonth) || yearID > 23)
+      ) {
+        setMonthError(false);
+        console.log("hiya");
+      } else {
+        console.log(todaysMonth);
+        setMonthError(true);
+      }
+    } else {
+      setMonthError(true);
+    }
+  };
 
-        // ? name
-        if (nameID.split(" ") > 1) {
-          setNameError(false);
-        } else {
-          setNameError(true);
-        }
+  const onYearChange = (e) => {
+    const monthID = document.getElementById("month").value;
 
-        // ? card digits length
-        if (numberID.legnth === 16) {
-          setDigitError(false);
-        } else {
-          setDigitError(true);
-        }
-  }
+    if ((e.target.value > 22 && monthID > todaysMonth) || e.target.value > 23) {
+      setYearError(false);
+      setMonthError(false);
+    } else {
+      setYearError(true);
+    }
+  };
 
-  useEffect(() => {
-onInputChange(e);
-console.log('change')
-  });
+  const onDigitChange = (e) => {
+    if (
+      e.target.value.length === 16 &&
+      e.target.value.match(numRegex).length === 16
+    ) {
+      setDigitError(false);
+    } else {
+      setDigitError(true);
+    }
+  };
+
+  const onCvcChange = (e) => {
+    if (e.target.value.length === 3) {
+      setCvcError(false);
+    } else {
+      setCvcError(true);
+    }
+  };
 
   const continueBtn = () => {
     setCvc("000");
@@ -117,7 +127,6 @@ console.log('change')
     setMonthError(false);
     setYearError(false);
     setCvcError(false);
-
   };
 
   const closeModal = () => {
@@ -177,8 +186,8 @@ console.log('change')
               card holder name
             </label>
             <input
-            onChange={onInputChange}
-            className={nameError ? 'invalid' : null}
+              onChange={onNameChange}
+              className={nameError ? "invalid" : null}
               required
               type="text"
               id="name"
@@ -190,8 +199,8 @@ console.log('change')
               card number
             </label>
             <input
-            onChange={onInputChange}
-            className={digitError ? 'invalid' : null}
+              onChange={onDigitChange}
+              className={digitError ? "invalid" : null}
               required
               type="text"
               minLength={16}
@@ -207,8 +216,8 @@ console.log('change')
             </div>
             <div className="card-date-container">
               <input
-              onChange={onInputChange}
-              className={monthError ? 'invalid' : null}
+                onChange={onMonthChange}
+                className={monthError ? "invalid" : null}
                 required
                 type="text"
                 minLength={2}
@@ -217,8 +226,8 @@ console.log('change')
                 id="month"
               />
               <input
-              onChange={onInputChange}
-              className={yearError ? 'invalid' : null}
+                onChange={onYearChange}
+                className={yearError ? "invalid" : null}
                 required
                 type="text"
                 minLength={2}
@@ -227,8 +236,8 @@ console.log('change')
                 id="year"
               />
               <input
-              onChange={onInputChange}
-              className={cvcError ? 'invalid' : null}
+                onChange={onCvcChange}
+                className={cvcError ? "invalid" : null}
                 required
                 type="text"
                 minLength={3}
