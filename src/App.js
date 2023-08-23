@@ -48,13 +48,7 @@ function App() {
     //* logic to ensure accurate submissions
     ////////////////////////////////////////////////
     // use state to determine error logging instead
-    if (
-      !nameError &&
-      !digitError &&
-      !monthError &&
-      !yearError &&
-      !cvcError
-    ) {
+    if (!nameError && !digitError && !monthError && !yearError && !cvcError) {
       setCvc(cvcCode);
       setName(nameID);
       setMonth(monthID);
@@ -115,12 +109,11 @@ function App() {
   };
 
   const onDigitChange = (e) => {
-    if (
-      e.target.value.length === 16 &&
-      e.target.value.match(numRegex).length === 16
-    ) {
+    if (e.target.value.match(numRegex).length === 16) {
       setDigitError(false);
+      console.log("its working");
     } else {
+      console.log("error");
       setDigitError(true);
     }
   };
@@ -221,16 +214,32 @@ function App() {
             <label for="card-number" className="mb2">
               card number
             </label>
-            <input
-              onChange={onDigitChange}
-              className={digitError ? "invalid" : null}
-              required
-              type="text"
-              minLength={16}
-              maxLength={16}
-              id="card-number"
-              placeholder="e.g 1234 5678 9999 0000"
-            />
+            {/* workaround bc the initial input field had a thicker 
+            border than the rest
+            for some reason, so when I styled it 
+            it messed up the class toggle for invalid status*/}
+            {digitError ? (
+              <input
+                onChange={onDigitChange}
+                style={{ border: "solid 1px red" }}
+                required
+                type="text"
+                minLength={16}
+                maxLength={16}
+                id="card-number"
+                placeholder="e.g 1234 5678 9999 0000"
+              />
+            ) : (
+              <input
+                onChange={onDigitChange}
+                required
+                type="text"
+                minLength={16}
+                maxLength={16}
+                id="card-number"
+                placeholder="e.g 1234 5678 9999 0000"
+              />
+            )}
           </div>
           <div className="label-container">
             <div>
