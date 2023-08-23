@@ -47,6 +47,11 @@ function App() {
     ////////////////////////////////////////////////
     //* logic to ensure accurate submissions
     ////////////////////////////////////////////////
+    // early return to prevent error of setting display card to null values
+    if (!cvcCode && !nameID && !monthID && !yearID && !numberID) {
+      return;
+    }
+
     // use state to determine error logging instead
     if (!nameError && !digitError && !monthError && !yearError && !cvcError) {
       setCvc(cvcCode);
