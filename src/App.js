@@ -36,6 +36,7 @@ function App() {
   // * initial actions once we press confirm
   ////////////////////////////////////////////////
   const confirmDetails = () => {
+    // grabbing input elements to read values
     const cvcCode = document.getElementById("code").value;
     const nameID = document.getElementById("name").value;
     const monthID = document.getElementById("month").value;
@@ -46,16 +47,13 @@ function App() {
     ////////////////////////////////////////////////
     //* logic to ensure accurate submissions
     ////////////////////////////////////////////////
-    if (nameID.split(" ").length !== 2) {
-      modal.classList.remove("hidden");
-    }
+    // use state to determine error logging instead
     if (
-      monthID > 0 &&
-      monthID < 13 &&
-      ((yearID > 22 && monthID > todaysMonth) || yearID > 23) &&
-      numberID === numberID.match(numRegex).join("") &&
-      numberID.length === 16 &&
-      nameID.split(" ").length >= 2
+      !nameError &&
+      !digitError &&
+      !monthError &&
+      !yearError &&
+      !cvcError
     ) {
       setCvc(cvcCode);
       setName(nameID);
@@ -78,7 +76,7 @@ function App() {
   // * contains individual onChange evenet listenrs
   ////////////////////////////////////////////////
   const onNameChange = (e) => {
-    if (e.target.value.split(" ").length !== 2) {
+    if (e.target.value.split(" ").length < 2) {
       setNameError(true);
     } else {
       setNameError(false);
