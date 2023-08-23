@@ -212,6 +212,11 @@ label {
   width: 50%;
 }
 
+#card-number {
+  border: 1px solid rgb(101, 101, 101);
+  border-radius: 2px;
+}
+
 /* * BUTTON */
 button {
   width: 75vw;
