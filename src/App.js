@@ -2,7 +2,7 @@ import cardDesign from "./images/Screenshot 2023-08-22 at 5.43.28 PM.png";
 import cardFront from "./images/bg-card-front.png";
 import "./App.css";
 import tachyons from "tachyons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faCheckCircle, faX } from "@fortawesome/free-solid-svg-icons";
 
@@ -13,7 +13,11 @@ function App() {
   const [name, setName] = useState("Justin Jefferson");
   const [month, setMonth] = useState("00");
   const [year, setYear] = useState("00");
-  const [error, setError] = useState(false);
+const [nameError, setNameError] = useState(false);
+const [digitError, setDigitError] = useState(false);
+const [monthError, setMonthError] = useState(false);
+const [yearError, setYearError] = useState(false);
+const [cvcError, setCvcError] = useState(false);
 
   const date = new Date();
   const todaysMonth = date.getMonth + 1;
@@ -25,10 +29,8 @@ function App() {
     const monthID = document.getElementById("month").value;
     const yearID = document.getElementById("year").value;
     const numberID = document.getElementById("card-number").value;
-
     const modal = document.getElementById("modal");
-    // debugger;
-
+    //* logic to ensure accurate submissions
     if (
       monthID > 0 &&
       monthID < 13 &&
@@ -43,12 +45,65 @@ function App() {
       let result = numberID.match(/.{1,4}/g ?? []).join(" ");
       setCardDigits(result);
       setConfirm(true);
-      setError(false);
     } else {
       modal.classList.remove("hidden");
-      setError(true);
     }
+
+
+    ////////////////////////////////////////////////
+    // * setting invalid borders for specific fields
+    ////////////////////////////////////////////////
+
   };
+  const onInputChange = (e) => {
+        const cvcCode = document.getElementById("code").value;
+        const nameID = document.getElementById("name").value;
+        const monthID = document.getElementById("month").value;
+        const yearID = document.getElementById("year").value;
+        const numberID = document.getElementById("card-number").value;
+        // ?  month
+        if (
+          monthID > 0 &&
+          monthID < 13 &&
+          ((yearID > 22 && monthID > todaysMonth) || yearID > 23)
+        ) {
+          setMonthError(false);
+        } else {
+          setMonthError(true);
+        }
+        // ? year
+        if ((yearID > 22 && monthID > todaysMonth) || yearID > 23) {
+          setYearError(false);
+        } else {
+          setYearError(true);
+        }
+
+        // ?  cvc
+        if (cvcCode === 3) {
+          setCvcError(false);
+        } else {
+          setCvcError(true);
+        }
+
+        // ? name
+        if (nameID.split(" ") > 1) {
+          setNameError(false);
+        } else {
+          setNameError(true);
+        }
+
+        // ? card digits length
+        if (numberID.legnth === 16) {
+          setDigitError(false);
+        } else {
+          setDigitError(true);
+        }
+  }
+
+  useEffect(() => {
+onInputChange(e);
+console.log('change')
+  });
 
   const continueBtn = () => {
     setCvc("000");
@@ -57,6 +112,12 @@ function App() {
     setMonth("00");
     setYear("00");
     setConfirm(false);
+    setNameError(false);
+    setDigitError(false);
+    setMonthError(false);
+    setYearError(false);
+    setCvcError(false);
+
   };
 
   const closeModal = () => {
@@ -116,6 +177,8 @@ function App() {
               card holder name
             </label>
             <input
+            onChange={onInputChange}
+            className={nameError ? 'invalid' : null}
               required
               type="text"
               id="name"
@@ -127,6 +190,8 @@ function App() {
               card number
             </label>
             <input
+            onChange={onInputChange}
+            className={digitError ? 'invalid' : null}
               required
               type="text"
               minLength={16}
@@ -142,6 +207,8 @@ function App() {
             </div>
             <div className="card-date-container">
               <input
+              onChange={onInputChange}
+              className={monthError ? 'invalid' : null}
                 required
                 type="text"
                 minLength={2}
@@ -150,6 +217,8 @@ function App() {
                 id="month"
               />
               <input
+              onChange={onInputChange}
+              className={yearError ? 'invalid' : null}
                 required
                 type="text"
                 minLength={2}
@@ -158,6 +227,8 @@ function App() {
                 id="year"
               />
               <input
+              onChange={onInputChange}
+              className={cvcError ? 'invalid' : null}
                 required
                 type="text"
                 minLength={3}
@@ -198,6 +269,10 @@ export const Modal = ({ handleModal }) => {
 -A: make input required numbers only, then stringify numbers, separate by 4 digits with space
 
 
-
+things to add 
+1. require first and last name
+2. highlight red border around failing areas
+3. style for desktop and tablet
+4. tweak styles for xs devices
 
 */
