@@ -11,7 +11,6 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Inconsolata";
-
 }
 
 .main-container {
@@ -23,7 +22,6 @@
   width: 100%;
   height: 100vh;
   overflow-y: hidden;
-
 }
 
 .initial-bg {
@@ -185,7 +183,8 @@ label {
 
 .card-date-container input,
 .card-date-container input::placeholder {
-  padding-left: 0.5rem;
+  padding: 0 0.5rem;
+  font-size: 1.25rem;
 }
 
 .label-container:last-of-type > div label {
@@ -207,12 +206,22 @@ label {
   flex-wrap: nowrap;
 }
 
+.month-year-input-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.month-year-input-container input {
+  margin-right: 1rem;
+}
+
 .card-date-container input {
-  width: 20%;
+  width: 50%;
 }
 
 #code {
-  width: 50%;
+  width: 100%;
 }
 
 #card-number {
@@ -364,6 +373,10 @@ button span {
 
   #front-card {
     top: -4.5rem;
+  }
+  .card-date-container input,
+  .card-date-container input::placeholder {
+    font-size: 1.5rem;
   }
 }
 

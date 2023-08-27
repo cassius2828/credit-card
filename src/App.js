@@ -247,41 +247,45 @@ function App() {
             )}
           </div>
           <div className="label-container">
-            <div>
-              <label id="date-label">exp. date (MM/YY) </label>
-              <label for="code">CVC</label>
-            </div>
             <div className="card-date-container">
-              <input
-                onChange={onMonthChange}
-                className={monthError ? "invalid" : null}
-                required
-                type="text"
-                minLength={2}
-                maxLength={2}
-                placeholder="MM"
-                id="month"
-              />
-              <input
-                onChange={onYearChange}
-                className={yearError ? "invalid" : null}
-                required
-                type="text"
-                minLength={2}
-                maxLength={2}
-                placeholder="YY"
-                id="year"
-              />
-              <input
-                onChange={onCvcChange}
-                className={cvcError ? "invalid" : null}
-                required
-                type="text"
-                minLength={3}
-                maxLength={3}
-                placeholder="e.g 123"
-                id="code"
-              />
+              <div>
+                <label id="date-label">exp. date (MM/YY) </label>
+                <div className="month-year-input-container">
+                  <input
+                    onChange={onMonthChange}
+                    className={monthError ? "invalid" : null}
+                    required
+                    type="text"
+                    minLength={2}
+                    maxLength={2}
+                    placeholder="MM"
+                    id="month"
+                  />
+                  <input
+                    onChange={onYearChange}
+                    className={yearError ? "invalid" : null}
+                    required
+                    type="text"
+                    minLength={2}
+                    maxLength={2}
+                    placeholder="YY"
+                    id="year"
+                  />
+                </div>
+              </div>
+              <div>
+                <label for="code">CVC</label>{" "}
+                <input
+                  onChange={onCvcChange}
+                  className={cvcError ? "invalid" : null}
+                  required
+                  type="text"
+                  minLength={3}
+                  maxLength={3}
+                  placeholder="e.g 123"
+                  id="code"
+                />
+              </div>
             </div>
           </div>{" "}
           <button type="submit" id="submit" onClick={confirmDetails}>
